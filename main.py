@@ -35,6 +35,9 @@ async def on_message(message):
 			await message.channel.send("Taylor did something wrong")
 			return
 		await message.channel.send(characters[chooseRandomly])
+
+		if message.author.display_name == "taylornguyen":
+			chooseRandomly = 1
 		
 		await send_photo(message, chooseRandomly)
 		return
@@ -59,4 +62,4 @@ async def choose_character(file, message):
 		await message.channel.send(line) 
 
 keep_alive()
-client.run(#your code)
+client.run("OTQyOTQxMjcwMjExNDU3MDk1.Ygr0fQ.lFgOaaY76x1NQA-al7Hn5OWPgI4")
