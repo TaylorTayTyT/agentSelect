@@ -2,6 +2,7 @@ import discord
 from replit import db
 from keepAlive import keep_alive
 import random 
+import os
 
 client = discord.Client()
 db.clear() 
@@ -32,16 +33,30 @@ async def on_message(message):
 		chooseRandomly = random.randint(0, 17)
 		if (chooseRandomly < 0) or (chooseRandomly >= 18):
 			await message.channel.send("Taylor did something wrong")
-			return;
+			return
 		await message.channel.send(characters[chooseRandomly])
 		
-		await message.channel.send(file=discord.File("tay.png"))
-		return; 
+		await send_photo(message, chooseRandomly)
+		return
 	
+async def send_photo(message, chooseRandomly):
+	dir_name = "valorant agents/" + characters[chooseRandomly]
+	list = os.listdir(dir_name) # dir is your directory path
+	number_files = len(list)
+
+	if number_files <= 0:
+		await message.channel.send("someone hates " + characters[chooseRandomly] + " so there isn't a pic of them")
+		return
+
+	constraint = (random.randint(0, 100) % number_files) + 1
+	pic_name = "valorant agents/" + characters[chooseRandomly] + "/" + str(constraint) + ".png"
+	await message.channel.send(file=discord.File(pic_name))
+	return
+
 async def choose_character(file, message):
 	file = open(file, "r")
 	for line in file: 
 		await message.channel.send(line) 
 
 keep_alive()
-client.run("OTQyOTQxMjcwMjExNDU3MDk1.Ygr0fQ.yKcf1tyw4gV8hm14JhKJnoJaPfY")
+client.run(#your code)
