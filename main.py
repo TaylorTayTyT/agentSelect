@@ -5,10 +5,21 @@ import random
 import os
 
 client = discord.Client()
-db.clear() 
+db["teamwin"] = 0
+db["teamloss"] = 0
+db["welcome"] = 0
 characters = ["astra", "breach", "brimstone", "chamber", "cypher", "jett", "kayo", "killjoy", "neon", "omen", "phoenix", "raze", "reyna", "sage", "skye", "sova", "viper", "yoru"]
 
-
+#from geeksforgeeks website
+def myAtoi(string):
+    res = 0
+  
+    # Iterate through all characters of
+    #  input string and update result
+    for i in string:
+        res = res * 10 + (int(i) - int('0'))
+  
+    return res
 
 @client.event
 async def on_ready():
@@ -21,12 +32,7 @@ async def on_message(message):
 		return
 
 	if message.content.startswith("$hello"):
-			
-		await choose_character("sova.txt", message)
-	
-	#clear all values
-	elif message.content.startswith("$clear"): 
-		await db.clear()
+		await message.channel.send(message.author.name)
 
 	#chooses an absolutely random variable
 	elif message.content.startswith("$random"):
@@ -35,12 +41,18 @@ async def on_message(message):
 			await message.channel.send("Taylor did something wrong")
 			return
 		await message.channel.send(characters[chooseRandomly])
-
-		if message.author.display_name == "taylornguyen":
-			chooseRandomly = 1
 		
 		await send_photo(message, chooseRandomly)
 		return
+
+	elif (message.author.name == "MTN" or message.author.name == "taylornguyen") and (message.content.startswith("you're welcome") or message.content.startswith("youre welcome")) :
+		f = open("ywcounter.txt", "r+")
+		value = myAtoi(f.readline()) + 1
+		f.seek(0)
+		f.truncate(0)
+		f.write(str(value))
+		f.close()
+		await message.channel.send("mtn has said youre welcome " + str(value) + " times")
 	
 async def send_photo(message, chooseRandomly):
 	dir_name = "valorant agents/" + characters[chooseRandomly]
@@ -62,4 +74,4 @@ async def choose_character(file, message):
 		await message.channel.send(line) 
 
 keep_alive()
-client.run("OTQyOTQxMjcwMjExNDU3MDk1.Ygr0fQ.lFgOaaY76x1NQA-al7Hn5OWPgI4")
+client.run()

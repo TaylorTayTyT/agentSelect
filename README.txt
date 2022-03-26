@@ -6,4 +6,6 @@ hello
 
 remember to add .png at the end 
 
+theres a code at the bottom of main.py. dont share that with anybody since it gives you access to the bot itself i think or smth its a security thing
+
 UWU
